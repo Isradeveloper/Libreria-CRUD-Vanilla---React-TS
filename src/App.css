@@ -1,0 +1,29 @@
+footer {
+  height: 50px !important;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.imagen-card {
+  height: 300px;
+  object-position: center;
+  object-fit: fill;
+}
+
+.add {
+  position: fixed;
+  height: 80px;
+  width: 80px;
+  border-radius: 100%;
+  bottom: 55px;
+  right: 10px;
+  z-index: 100;
+}
+
+.add:hover {
+  background-color:#29ff6d !important ;
+  cursor: pointer;
+  transition: all 0.4s;
+  color: black !important;
+}
