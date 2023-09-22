@@ -12,7 +12,7 @@ function App() {
 
 
   const {getLibros} = useLocalStorage('libros')
-  const  {values, editar, setEditar, handleChange, resetForm} = useForm({
+  const  {values, editar, setEditar, handleChange, resetForm, setValues} = useForm({
     nombre: '',
     autor: '',
     fechaPublicacion: '',
@@ -21,6 +21,7 @@ function App() {
   })
 
   const onClickModal = () => {
+    resetForm()
     const selectElement = document.getElementById('estado') as HTMLSelectElement;
     selectElement.value = values.estado.toString();
   }
@@ -35,12 +36,12 @@ function App() {
     <>
       <div className='container-fluid'>
         <h1 className='text-center mt-5'>Library APP</h1>
-        <ListaLibros libros={libros}/>
+        <ListaLibros libros={libros} setLibros={setLibros} editar={editar} setEditar={setEditar} resetForm={resetForm} values={values} handleChange={handleChange} setValues={setValues} />
       </div>
       <div className="add bg-success d-flex justify-content-center align-items-center text-light bg-hover-primary" data-bs-toggle="modal" data-bs-target="#crear_libro" onClick={onClickModal}>
         <BsBookmarkPlus size={30}/>
       </div>
-      <Modal setLibros={setLibros} editar={editar} setEditar={setEditar} resetForm={resetForm} values={values} handleChange={handleChange}/>
+      <Modal setLibros={setLibros} editar={editar} setEditar={setEditar} resetForm={resetForm} values={values} handleChange={handleChange} setValues={setValues}/>
       <Footer/>
     </>
   )

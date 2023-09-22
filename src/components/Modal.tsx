@@ -10,13 +10,6 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
 
   const {nombre, autor, estado, fechaPublicacion, portada, id} = values
 
-  const formatDate = (inputDate:Date):string => {
-    const year = inputDate.getFullYear();
-    const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Los meses en JS van de 0 a 11, por eso sumamos 1
-    const day = String(inputDate.getDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-}
 
   const guardarLibro = () => {
     Swal.fire({
@@ -33,7 +26,7 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
     }).then((result) => {
       if (result.isConfirmed) {
         const libros = getLibros()
-        const libroObjeto = new LibroClass(nombre, autor, fechaPublicacion, {id: estado}, libros.length + 1, portada)
+        const libroObjeto = new LibroClass(nombre, autor, fechaPublicacion, {id: estado}, new Date().getTime(), portada || 'NA')
         saveToLocalStorage([...libros, libroObjeto])
         setLibros(getLibros())
 
@@ -42,6 +35,52 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
           icon: 'success',
           title: '¡Genial!',
           text: 'Libro creado correctamente',
+          showConfirmButton: false,
+          timer: 1000
+        }).then(()=>{
+          let elemento = document.querySelector('#cerrar_modal');
+          if (elemento instanceof HTMLElement) {
+              elemento.click();
+              resetForm()
+              setEditar(false)
+          }
+        })
+      }
+    })
+  }
+
+  const editarLibro = () => {
+    Swal.fire({
+      buttonsStyling: false,
+      icon: 'warning',
+      text: '¿Estás seguro de que desea editar este libro?',
+      showCancelButton: true,
+      confirmButtonText: 'Editar',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton:"btn btn-danger ms-2"
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let libros = getLibros()
+        
+        libros = libros.map((libro) => {
+          if (values.id == libro.id) {
+            return new LibroClass(values.nombre, values.autor, values.fechaPublicacion, {id: values.estado}, values.id, values.portada || 'NA')
+          } else {
+            return libro
+          }
+        })
+      
+        saveToLocalStorage(libros)
+        setLibros(getLibros())
+
+        Swal.fire({
+          buttonsStyling: false,
+          icon: 'success',
+          title: '¡Genial!',
+          text: 'Libro actualizado correctamente',
           showConfirmButton: false,
           timer: 1000
         }).then(()=>{
@@ -96,7 +135,7 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id="cerrar_modal">Cancelar</button>
-            {editar == false ? <button type="button" className="btn btn-primary" onClick={guardarLibro}>Guardar</button> : <button type="button" className="btn btn-primary" onClick={guardarLibro}>Editar</button>}
+            {editar == false ? <button type="button" className="btn btn-primary" onClick={guardarLibro}>Guardar</button> : <button type="button" className="btn btn-primary" onClick={editarLibro}>Editar</button>}
           </div>
         </div>
       </div>
