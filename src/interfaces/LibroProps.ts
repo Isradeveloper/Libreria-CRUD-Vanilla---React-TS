@@ -14,5 +14,6 @@ export interface ModalLibroProp {
   editar: boolean,
   setEditar: React.Dispatch<React.SetStateAction<boolean>>,
   resetForm: () => void,
-  values: FormInterface
+  values: FormInterface,
+  handleChange: any
 }

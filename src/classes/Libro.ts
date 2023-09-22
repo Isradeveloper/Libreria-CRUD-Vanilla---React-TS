@@ -5,14 +5,11 @@ export class Libro {
   constructor(
     public nombre:string,
     public autor: string,
-    public fechaPublicacion:Date | string,
+    public fechaPublicacion: string,
     public estado: Estado,
     public id: number,
     public portada: string = 'NA',
   ){
-    if (typeof(this.fechaPublicacion) == 'string') {
-      this.fechaPublicacion = new Date(fechaPublicacion)
-    }
   }
 
   getNombreCorto():string {

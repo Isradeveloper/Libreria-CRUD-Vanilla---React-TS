@@ -6,6 +6,12 @@ export const Libro: React.FC<LibroProps> = ({ libro }) => {
 
   const {getLibros} = useLocalStorage('libros')
 
+  const formatFecha = (fechaStr:string) => {
+    const partes = fechaStr.split('-').map(part => parseInt(part, 10));
+    const fecha = new Date(partes[0], partes[1] - 1, partes[2]); // Recuerda que los meses en JavaScript son 0-indexados
+    return fecha.toLocaleDateString()
+  }
+
   const editarLibro = (id:number) => {
     const libros = getLibros()
     const libro = libros.find((libro) => libro.id == id)
@@ -22,7 +28,7 @@ export const Libro: React.FC<LibroProps> = ({ libro }) => {
         <div className="col-12 py-2 fw-bold">Autor</div>
         <div className="col-12 py-2">{libro.getNombreAutorCorto()}</div>
         <div className="col-12 py-2 fw-bold">Fecha de publicación</div>
-        <div className="col-12 py-2">{(libro.fechaPublicacion as Date).toLocaleDateString()}</div>
+        <div className="col-12 py-2">{formatFecha(libro.fechaPublicacion)}</div>
 
         {
           (libro.estado.id == 1)

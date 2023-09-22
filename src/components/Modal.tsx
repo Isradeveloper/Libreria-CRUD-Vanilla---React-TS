@@ -4,11 +4,19 @@ import { ModalLibroProp } from "../interfaces/LibroProps"
 import Swal from 'sweetalert2'
 
 
-export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, resetForm, values}) => {
+export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, resetForm, values, handleChange}) => {
 
   const {getLibros, saveToLocalStorage} = useLocalStorage('libros')
 
   const {nombre, autor, estado, fechaPublicacion, portada, id} = values
+
+  const formatDate = (inputDate:Date):string => {
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Los meses en JS van de 0 a 11, por eso sumamos 1
+    const day = String(inputDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
 
   const guardarLibro = () => {
     Swal.fire({
@@ -25,7 +33,7 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
     }).then((result) => {
       if (result.isConfirmed) {
         const libros = getLibros()
-        const libroObjeto = new LibroClass('Roronoa Zoroddddddddd', 'Hola bbdddddddddddddddddddddddddd', new Date(), {nombreEstado: 'Pendiente', id: 1}, libros.length + 1, "https://elcomercio.pe/resizer/u3n8JeAtvQH2kj_rUsy9PD85USQ=/980x528/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/J5TZJL65YBB2JN5TCPZBJVNJTQ.webp")
+        const libroObjeto = new LibroClass(nombre, autor, fechaPublicacion, {id: estado}, libros.length + 1, portada)
         saveToLocalStorage([...libros, libroObjeto])
         setLibros(getLibros())
 
@@ -60,23 +68,23 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
             <form className='row'>
               <div className="col-12 form-group">
                 <label htmlFor="nombre" className='form-label'>Nombre del libro <span className='text-danger'>*</span></label>
-                <input type="text" id='nombre' name='nombre' className='form-control' value={nombre}/>
+                <input type="text" id='nombre' name='nombre' className='form-control' value={nombre} onChange={handleChange}/>
               </div>
               <div className="col-12 form-group mt-3">
                 <label htmlFor="nombre_autor" className='form-label'>Nombre del autor <span className='text-danger'>*</span></label>
-                <input type="text" id='nombre_autor' name='nombre_autor' className='form-control' value={autor}/>
+                <input type="text" id='nombre_autor' name='autor' className='form-control' value={autor} onChange={handleChange}/>
               </div>
               <div className="col-12 form-group mt-3">
                 <label htmlFor="fecha_publicacion" className='form-label'>Fecha de publicación<span className='text-danger'>*</span></label>
-                <input type="date" id='fecha_publicacion' name='fecha_publicacion' className='form-control' value={'2023-05-31'}/>
+                <input type="date" id='fecha_publicacion' name='fechaPublicacion' className='form-control' value={fechaPublicacion} onChange={handleChange}/>
               </div>
               <div className="col-12 form-group mt-3">
                 <label htmlFor="portada" className='form-label'>Portada <span className='text-success'>(Pegar link)</span></label>
-                <textarea name="portada" id="portada" className='form-control'></textarea>
+                <textarea name="portada" id="portada" className='form-control' value={portada} onChange={handleChange}></textarea>
               </div>
               <div className="col-12 form-group mt-3">
                 <label htmlFor="estado" className='form-label'>Estado <span className='text-danger'>*</span></label>
-                <select name="estado" id="estado" className='form-select'>
+                <select name="estado" id="estado" className='form-select' defaultValue={estado} onChange={handleChange}>
                   <option value={0}>Seleccione un estado...</option>
                   <option value={1}>Prestado</option>
                   <option value={2}>Dañado</option>
@@ -88,7 +96,7 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" id="cerrar_modal">Cancelar</button>
-            <button type="button" className="btn btn-primary" onClick={guardarLibro}>Guardar</button>
+            {editar == false ? <button type="button" className="btn btn-primary" onClick={guardarLibro}>Guardar</button> : <button type="button" className="btn btn-primary" onClick={guardarLibro}>Editar</button>}
           </div>
         </div>
       </div>
