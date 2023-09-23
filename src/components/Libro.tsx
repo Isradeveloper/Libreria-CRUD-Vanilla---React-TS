@@ -4,7 +4,7 @@ import { useLocalStorage } from '../hooks/useLocalStorageLibros'
 import { Libro as LibroClass } from '../classes/Libro'
 import Swal from 'sweetalert2'
 
-export const Libro: React.FC<LibroProps> = ({ libro, editar, handleChange, resetForm, setEditar, setLibros, values, setValues }) => {
+export const Libro: React.FC<LibroProps> = ({ libro, resetForm, setEditar, setLibros, setValues }) => {
 
   const { getLibros, saveToLocalStorage } = useLocalStorage('libros')
 
@@ -89,8 +89,8 @@ export const Libro: React.FC<LibroProps> = ({ libro, editar, handleChange, reset
         }
 
         <div className="col-12 d-flex justify-content-around py-3">
-          <button className="btn btn-primary col-5" data-bs-toggle="modal" data-bs-target="#crear_libro" onClick={(e) => { editarLibro(libro.id) }}><BsPencilFill /> Editar</button>
-          <button className="btn btn-danger col-5" onClick={(e) => {eliminarLibro(libro.id)}}><BsFillTrashFill /> Eliminar</button>
+          <button className="btn btn-primary col-5" data-bs-toggle="modal" data-bs-target="#crear_libro" onClick={() => { editarLibro(libro.id) }}><BsPencilFill /> Editar</button>
+          <button className="btn btn-danger col-5" onClick={() => {eliminarLibro(libro.id)}}><BsFillTrashFill /> Eliminar</button>
         </div>
       </div>
 
