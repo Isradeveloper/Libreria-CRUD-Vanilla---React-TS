@@ -12,6 +12,22 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
 
 
   const guardarLibro = () => {
+
+    if (nombre == '' || autor == '' || estado == 0 || fechaPublicacion == '') {
+      Swal.fire({
+        buttonsStyling: false,
+        icon: 'error',
+        text: 'Tienes algunos campos vacíos en el formulario',
+        showCancelButton: false,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: "btn btn-success",
+        }
+      })
+      return
+    }
+
     Swal.fire({
       buttonsStyling: false,
       icon: 'warning',
@@ -50,6 +66,22 @@ export const Modal: React.FC<ModalLibroProp> = ({setLibros, editar, setEditar, r
   }
 
   const editarLibro = () => {
+
+    if (nombre == '' || autor == '' || estado == 0 || fechaPublicacion == '') {
+      Swal.fire({
+        buttonsStyling: false,
+        icon: 'error',
+        text: 'Tienes algunos campos vacíos en el formulario',
+        showCancelButton: false,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          confirmButton: "btn btn-success",
+        }
+      })
+      return
+    }
+
     Swal.fire({
       buttonsStyling: false,
       icon: 'warning',
