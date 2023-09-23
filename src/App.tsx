@@ -22,6 +22,7 @@ function App() {
 
   const onClickModal = () => {
     resetForm()
+    setEditar(false)
     const selectElement = document.getElementById('estado') as HTMLSelectElement;
     selectElement.value = values.estado.toString();
   }
