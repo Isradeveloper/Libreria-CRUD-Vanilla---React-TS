@@ -7,7 +7,7 @@ export const useLocalStorage = (key:string) => {
   };
 
   const getLocalStorage = () => {
-    return localStorage.getItem(key)
+    return (localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : null)
   };
 
   const getLibros = (): Libro[] => {

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {FormInterface} from '../interfaces/Form'
 
-export const useForm = (initialValues: FormInterface) => {
+export const useForm = (initialValues: FormInterface | any) => {
 
   const [values, setValues] = useState(initialValues);
   const [editar, setEditar] = useState(false);

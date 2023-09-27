@@ -1,6 +1,6 @@
 import { BsFillTrashFill, BsPencilFill } from 'react-icons/bs'
 import { LibroProps } from '../interfaces/LibroProps'
-import { useLocalStorage } from '../hooks/useLocalStorageLibros'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 import { Libro as LibroClass } from '../classes/Libro'
 import Swal from 'sweetalert2'
 

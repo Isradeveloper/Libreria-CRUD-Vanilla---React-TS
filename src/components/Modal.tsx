@@ -1,4 +1,4 @@
-import { useLocalStorage } from "../hooks/useLocalStorageLibros"
+import { useLocalStorage } from "../hooks/useLocalStorage"
 import {Libro as LibroClass} from '../classes/Libro'
 import { ModalLibroProp } from "../interfaces/LibroProps"
 import Swal from 'sweetalert2'
